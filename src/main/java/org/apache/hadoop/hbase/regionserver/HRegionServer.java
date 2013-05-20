@@ -3877,7 +3877,9 @@ public class HRegionServer implements HRegionInterface, HBaseRPCErrorHandler,
     try {
       Constructor<? extends HRegionServer> c = regionServerClass
           .getConstructor(Configuration.class);
-      return c.newInstance(conf2);
+      HRegionServer instance = c.newInstance(conf2);
+      HRegionServerRegister.registerInstance(instance);
+      return instance;
     } catch (Exception e) {
       throw new RuntimeException("Failed construction of " + "Regionserver: "
           + regionServerClass.toString(), e);
